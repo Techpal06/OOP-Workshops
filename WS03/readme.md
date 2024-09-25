@@ -2,6 +2,8 @@
 In this workshop, you will implement member functions, privacy and a safe empty state for a class.
 
 ## Updates
+### [Version (1.3)](#prnnumber)
+Released the code for prnNubmer() function because the workshop is not focused on formatting
 ### [Version (1.2)](#set-overloaded-with-five-arguments)
 Typo in default arguments in five arg set for expYear
 ### [Version (1.1)](#set-overloaded-with-five-arguments)
@@ -232,8 +234,10 @@ This function does not modify the object (is constant).
 #### prnNumber
 
 ```C++
-void prnNumber(unsigned long long CCnum)const;
+void prnNumber(unsigned long long CCnum)const; 
 ```
+The code for this method is provided
+
 This function prints a 16-digit number in a set of 4-digit numbers separated by spaces.
 
 For example:  
