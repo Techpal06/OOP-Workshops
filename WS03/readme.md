@@ -1,7 +1,9 @@
-# Workshop #3: Member Functions and Privacy (V1.1)
+# Workshop #3: Member Functions and Privacy (V1.2)
 In this workshop, you will implement member functions, privacy and a safe empty state for a class.
 
 ## Updates
+### [Version (1.2)](#set-overloaded-with-five-arguments)
+Typo in default arguments in five arg set for expYear
 ### [Version (1.1)](#set-overloaded-with-five-arguments)
 Added default arguments to the five-argument set function for clarity
 
@@ -272,7 +274,7 @@ void set(const char* cc_name,
          unsigned long long cc_no, 
          short cvv, 
          short expMon = 12, 
-         short expYear = 2024);
+         short expYear = 24);
 ```
 First, it will `cleanUp()` the object to a safe empty state. Then if all the arguments are valid using `validate()`, it will dynamically keep a copy of the name in the name attribute (using `alocpy function in cstr.h`) and then sets the rest of the attributes to their corresponding values. 
 
