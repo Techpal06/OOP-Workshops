@@ -42,79 +42,87 @@ namespace seneca {
       return cout;
    }
 
-   Account::operator bool() const
-   {
-       return m_number >= 1000 && m_number <= 9999 && m_balance > 0;
+   Account::operator bool() const {
+       return m_number >= 10000 && m_number <= 99999 && m_balance >= 0;
    }
 
+   Account::operator int() const {
+       return m_number;
+   }
 
-   Account::operator double() const
-   {
+   Account::operator double() const {
        return m_balance;
    }
+
    bool Account::operator~() const {
        return m_number == 0;
-    }
- 
-   // Assign a new account number
+   }
+
    Account& Account::operator=(int number) {
-       if (number >= 10000 && number <= 99999) {
-           m_number = number;
-           m_balance = 0.0;
-       }
-       return *this;
-   }
-
-   // Assign an account to another account
-   Account& Account::operator=(Account& other) {
-       if (this != &other && other) {  // Ensure not self-assignment and valid account
-           m_number = other.m_number;
-           m_balance = other.m_balance;
-       }
-       return *this;
-   }
-
-   // Move funds from one account to another (>>) 
-   Account& Account::operator>>(Account& other) {
-       if (this != &other && *this && other) {  // Valid accounts and not the same
-           other.m_balance += m_balance;
-           m_balance = 0.0;
-       }
-       return *this;
-   }
-
-   // Move funds from another account (<<) 
-   Account& Account::operator<<(Account& other) {
-       if (this != &other && *this && other) {  // Valid accounts and not the same
-           m_balance += other.m_balance;
-           other.m_balance = 0.0;
-       }
-       return *this;
-   }
-   Account& Account::operator+=(double amount)
-   {
-           if ( *this) {  // Ensure the amount is positive and the account is valid
-               m_balance += amount;
+       if (m_number == 0) {
+           if (number >= 10000 && number <= 99999) {
+               m_number = number;
            }
-           return *this;
-    
-
+           else {
+               setEmpty();
+           }
+       }
+       return *this;
    }
-   Account& Account::operator-=(double amount)
-   {
-       if (amount > 0 && m_balance >= amount && *this) {  // Ensure sufficient balance and valid account
+
+   Account& Account::operator=(const Account& acc) {
+       if (m_number == 0 && acc) {
+           m_number = acc.m_number;
+           m_balance = acc.m_balance;
+           const_cast<Account&>(acc).m_number = 0;
+           const_cast<Account&>(acc).m_balance = 0.0;
+       }
+       return *this;
+   }
+
+
+   Account& Account::operator+=(double amount) {
+       if (*this && amount > 0) {
+           m_balance += amount;
+       }
+       return *this;
+   }
+
+   Account& Account::operator-=(double amount) {
+       if (*this && amount > 0 && m_balance >= amount) {
            m_balance -= amount;
        }
        return *this;
    }
-   Account Account::operator+(const Account& other) const
-   {
-     
-           Account temp = *this;
-           if (temp && other) {
-               temp.m_balance += other.m_balance;
-           }
-           return temp;
-   
+
+   Account& Account::operator<<(Account& other) {
+       if (this != &other && *this && other) {
+           m_balance += other.m_balance;
+           other.m_balance = 0;
+       }
+       return *this;
    }
+
+   Account& Account::operator>>(Account& other) {
+       if (this != &other && *this && other) {
+           other.m_balance += m_balance;
+           m_balance = 0;
+       }
+       return *this;
+   }
+
+   double operator+(const Account& left, const Account& right) {
+       if (left && right) {
+           return left.m_balance + right.m_balance;
+       }
+       return 0.0;
+   }
+
+   double& operator+=(double& left, const Account& right) {
+       if (right) {
+           left += right.m_balance;
+       }
+       return left;
+   }
+
 }

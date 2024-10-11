@@ -12,21 +12,25 @@
           Account(int number, double balance);
           std::ostream& display()const;
 
+          operator bool() const;
+          operator int() const;
+          operator double() const;
 
-
-          explicit operator bool() const; 
-          explicit operator double() const; 
           bool operator~() const;
 
-          Account& operator =(int number);
-          Account& operator = (Account& other);
-          Account& operator >> (Account& other);
-          Account& operator << (Account& other);
-          Account& operator += (double amount);
-          Account& operator -= (double amount);
-          Account operator+(const Account& other) const;
+          Account& operator=(int);
+          Account& operator=(const Account&);
 
+          Account& operator+=(double);
+          Account& operator-=(double);
+          Account& operator<<(Account&);
+          Account& operator>>(Account&);
+
+          friend double operator+(const Account&, const Account&);
+          friend double& operator+=(double&, const Account&);
        };
+
+
 
 
     }
